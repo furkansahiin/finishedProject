@@ -1,49 +1,97 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:bidscape/consts/consts.dart';
+import 'package:http/http.dart' as http;
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
+class SliderWidget extends StatefulWidget {
+  
   @override
-  _MyAppState createState() => _MyAppState();
+  _SliderWidgetState createState() => _SliderWidgetState();
 }
 
-class _MyAppState extends State<MyApp> {
-  List<dynamic> _images = [];
+class _SliderWidgetState extends State<SliderWidget> {
+  List<SliderImage> _imageList = [];
+
+  int _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _fetchImages();
+    getImages();
   }
 
-  Future<void> _fetchImages() async {
-    final response = await http.get(Uri.parse('http://localhost/images_api.php'));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      setState(() {
-        _images = data['images'];
-      });
+  Future<void> getImages() async {
+    try {
+      var res = await http.get(Uri.parse(API.slider));
+      if (res.statusCode == 200) {
+        var sliderjson = jsonDecode(res.body);
+        if (sliderjson["success"]) {
+          setState(() {
+            var jsonData = sliderjson["images"];
+            _imageList = List<SliderImage>.from(
+                jsonData.map((item) => SliderImage.fromJson(item)));
+          });
+        }
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: PageView.builder(
-            itemCount: _images.length,
-            itemBuilder: (context, index) {
-              final image = _images[index];
-              return Image.network(image['image_path']);
-            },
-          ),
+  return Column(
+    children: [
+      SizedBox(
+        height: MediaQuery.of(context).size.height * 0.3,
+        child: CarouselSlider(
+          options: CarouselOptions(
+            height: MediaQuery.of(context).size.height * 0.3,
+            autoPlay: true,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },),
+          items: _imageList.map((item) => Padding(
+          padding: const EdgeInsets.all(8.0),
+            child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.network(
+            item.imageUrl,
+            fit: BoxFit.cover,
+            ),
+            ),
+            )).toList(),
+            
+            ),
         ),
+          
+      15.heightBox,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: _buildPageIndicator(),
       ),
-    );
+    ],
+  );
+}
+
+List<Widget> _buildPageIndicator() {
+  List<Widget> list = [];
+  for (int i = 0; i < _imageList.length; i++) {
+    list.add(i == _currentIndex ? _indicator(true) : _indicator(false));
   }
+  return list;
+}
+
+Widget _indicator(bool isActive) {
+  return AnimatedContainer(
+    duration: const Duration(milliseconds: 150),
+    margin: margin8,
+    height: height8,
+    width: isActive ? width16 : width10,
+    decoration: BoxDecoration(
+      color: isActive ? appcolorred : appcolor,
+      borderRadius: BorderRadius.all(Radius.circular(12)),
+    ),
+  );
+}
 }

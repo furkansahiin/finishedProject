@@ -6,18 +6,23 @@ class ExploreFragmentsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Center(
-          child: Text(
-            "Explore Fragments Screen",
-            style: TextStyle(
-              color: appcolor,
-              fontSize: size18,
-              fontFamily: bold,
+      body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                AppBar(
+                  title: Text('Keşfet'),
+                  centerTitle: true,
+                  backgroundColor: appcolorred,
+                ),
+                20.heightBox,
+                const ExploreListScreen(),
+                20.heightBox,
+              ],
             ),
           ),
         ),
-      ),
+      
     );
   }
 }

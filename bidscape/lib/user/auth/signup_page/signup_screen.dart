@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:bidscape/consts/consts.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,14 +32,14 @@ class _SignupScreenState extends State<SignupScreen> {
         var resBodyOfValidateUserEmail = jsonDecode(res.body);
 
         if(resBodyOfValidateUserEmail["emailfound"] == true) {
-          Get.snackbar(errorTitle, errorEmailAlreadyExist , snackPosition: SnackPosition.BOTTOM, backgroundColor: redColor, colorText: whiteColor,);
+          Get.snackbar(errorTitle, errorEmailAlreadyExist , snackPosition: SnackPosition.BOTTOM, backgroundColor: errorred, colorText: whiteColor,);
         } else {
           saveNewUser();
         }
       }
 
     } catch (e) {
-      Get.snackbar(errorTitle, erorHostNotFound , snackPosition: SnackPosition.BOTTOM, backgroundColor: redColor, colorText: whiteColor,);
+      Get.snackbar(errorTitle, erorHostNotFound , snackPosition: SnackPosition.BOTTOM, backgroundColor: errorred, colorText: whiteColor,);
     }
   }
     Future<void> saveNewUser() async {
@@ -63,16 +62,16 @@ class _SignupScreenState extends State<SignupScreen> {
         var resBodyOfSaveNewUser = jsonDecode(res.body);
 
         if(resBodyOfSaveNewUser["status"] == true) {
-         Get.snackbar(successTitle, errorSignupSuccess , snackPosition: SnackPosition.BOTTOM, backgroundColor: greenColor, colorText: whiteColor,);
-          Get.offAll(() => LoginScreen());
+         Get.snackbar(successTitle, errorSignupSuccess , snackPosition: SnackPosition.BOTTOM, backgroundColor: greenColor, colorText: whiteColor);
+          Get.offNamed('/login');
         } else {
-          Get.snackbar(errorTitle, errorSignupFail , snackPosition: SnackPosition.BOTTOM, backgroundColor: redColor, colorText: whiteColor,);
+          Get.snackbar(errorTitle, errorSignupFail , snackPosition: SnackPosition.BOTTOM, backgroundColor: errorred, colorText: whiteColor);
         }
       } else {
-        Get.snackbar(errorTitle, res.statusCode.toString() , snackPosition: SnackPosition.BOTTOM, backgroundColor: redColor, colorText: whiteColor,);
+        Get.snackbar(errorTitle, res.statusCode.toString() , snackPosition: SnackPosition.BOTTOM, backgroundColor: errorred, colorText: whiteColor);
       }
     } catch (e) {
-      Get.snackbar(errorTitle, erorHostNotFound , snackPosition: SnackPosition.BOTTOM, backgroundColor: redColor, colorText: whiteColor,);
+      Get.snackbar(errorTitle, erorHostNotFound , snackPosition: SnackPosition.BOTTOM, backgroundColor: errorred, colorText: whiteColor);
     }
   }
   @override
@@ -130,28 +129,53 @@ class _SignupScreenState extends State<SignupScreen> {
                                   });
                                 }),
                             Expanded(
-                              child: RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: termAndCond,
-                                      style: TextStyle(
-                                          color: appcolorred, fontFamily: regular)),
-                                  TextSpan(
+                              child: Text.rich(
+                                TextSpan(
+                                  text: termAndCond,
+                                  style: TextStyle(
+                                    color: appcolor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          showModalBottomSheetWithText(context, termAndCond, termAndCondtext);
+                                        },
+                                  children: [
+                                    
+                                    TextSpan(
                                       text: and,
                                       style: TextStyle(
-                                          color: darkfontGrey,
-                                          fontFamily: regular)),
-                                  TextSpan(
+                                        color: blackColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    TextSpan(
                                       text: privacyPolicyt,
                                       style: TextStyle(
-                                          color: appcolorred, fontFamily: regular)),
-                                  TextSpan(
+                                        color: appcolor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          showModalBottomSheetWithText(context, privacyPolicyt, privacyPolicyttext);
+                                        },
+                                    ),
+                                    TextSpan(
                                       text: readAndAgree,
                                       style: TextStyle(
-                                          color: darkfontGrey,
-                                          fontFamily: regular)),
-                                ]),
+                                        color: blackColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
+
                             ),
                           ],
                         ),
@@ -160,21 +184,20 @@ class _SignupScreenState extends State<SignupScreen> {
                         ourButton(
                             color: isCheck == true ? appcolor : lightGrey,
                             title: signupButton,
-                            textColor: whiteColor,
+                            textColor: blackColor,
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 if (_nameController.text.isEmpty ||
                                     _emailController.text.isEmpty ||
                                     _passwordController.text.isEmpty ||
                                     _confirmpasswordController.text.isEmpty) {
-                                  Get.snackbar(errorTitle,textFieldEmpty , snackPosition: SnackPosition.BOTTOM, backgroundColor: redColor, colorText: whiteColor,);
+                                  Get.snackbar(errorTitle,textFieldEmpty , snackPosition: SnackPosition.BOTTOM, backgroundColor: errorred, colorText: whiteColor);
                                 } else if (isCheck == false) {
                                   Get.snackbar(
                                     errorTitle,
                                     errorAgreePrivacyandTerm,
                                     snackPosition: SnackPosition.BOTTOM,
-                                    backgroundColor: redColor,
-                                    colorText: whiteColor,
+                                    backgroundColor: errorred, colorText: whiteColor
                                   );
                                 } else {
                                   if (_nameController.text.trim().length < 3) {
@@ -182,8 +205,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       errorTitle,
                                       nameError,
                                       snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: redColor,
-                                      colorText: whiteColor,
+                                      backgroundColor: errorred, colorText: whiteColor
                                     );
                                   } else if (_emailController.text.trim().length <
                                       3) {
@@ -191,8 +213,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       errorTitle,
                                       emailError,
                                       snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: redColor,
-                                      colorText: whiteColor,
+                                      backgroundColor: errorred, colorText: whiteColor
                                     );
                                   } else if (_passwordController.text
                                           .trim()
@@ -202,8 +223,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       errorTitle,
                                       passwordError,
                                       snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: redColor,
-                                      colorText: whiteColor,
+                                      backgroundColor: errorred, colorText: whiteColor
                                     );
                                   } else if (_passwordController.text !=
                                       _confirmpasswordController.text) {
@@ -211,8 +231,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       errorTitle,
                                       passwordNotMatch,
                                       snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: redColor,
-                                      colorText: whiteColor,
+                                      backgroundColor: errorred, colorText: whiteColor,
                                     );
                                   } else {
                                     validateUserEmail();
@@ -221,11 +240,10 @@ class _SignupScreenState extends State<SignupScreen> {
                               } else {
                                 Get.snackbar(errorTitle, errorFormNotValid,
                                     snackPosition: SnackPosition.BOTTOM,
-                                    backgroundColor: redColor,
-                                    colorText: whiteColor);
+                                    backgroundColor: errorred, colorText: whiteColor);
                               }
                             }).box.width(context.screenWidth - 50).make(),
-                        10.heightBox,
+                        15.heightBox,
                         RichText(
                           text: TextSpan(
                             children: [
@@ -240,12 +258,12 @@ class _SignupScreenState extends State<SignupScreen> {
                             ],
                           ),
                         ).onTap(() {
-                          Get.back();
+                          Get.offAllNamed("/login");
                         }),
                       ],
                     )
                         .box
-                        .white
+                        .color(whiteColor)
                         .rounded
                         .padding(EdgeInsets.all(16.0))
                         .margin(EdgeInsets.all(16.0))

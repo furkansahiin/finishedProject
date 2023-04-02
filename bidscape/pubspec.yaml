@@ -62,6 +62,14 @@ dev_dependencies:
   #preferences
   shared_preferences: ^2.0.15
 
+  # anasayfadaki slider için
+  carousel_slider: ^4.2.1
+
+  # ads redirect
+  # url_launcher: ^6.1.10
+
+  modal_bottom_sheet: ^2.1.2
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

@@ -6,7 +6,6 @@ Widget custumTextFieldWidget(
 
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      // title.text.color(blackColor).fontFamily(bold).size(size16).make(),
       5.heightBox,
       TextField(
         cursorHeight: 20,
@@ -16,10 +15,13 @@ Widget custumTextFieldWidget(
           contentPadding: padding16all,
           hintText: hint,
           hintStyle: TextStyle(
-            color: blackColor,
+            color: textfieldtextGrey,
             fontFamily: regular,
           ),
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none,
+          ),
           filled: true,
           fillColor: lightGrey,
           isDense: true,
@@ -50,10 +52,13 @@ Widget passwordtextfield({
           contentPadding: padding16all,
           hintText: hint,
           hintStyle: TextStyle(
-            color: blackColor,
+            color: textfieldtextGrey,
             fontFamily: regular,
           ),
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none,
+          ),
           filled: true,
           fillColor: lightGrey,
           isDense: true,

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:bidscape/consts/consts.dart';
 import 'package:http/http.dart' as http;
 
@@ -38,16 +37,16 @@ class _LoginScreenState extends State<LoginScreen> {
           User user = User.fromJson(data['userData']);
           RememberUserPrefs.storeUserInfo(user);
          Get.snackbar(successTitle, errorLoginSuccess , snackPosition: SnackPosition.BOTTOM, backgroundColor: greenColor, colorText: whiteColor,);
-          Get.offAll(() => DashboardFragments());
+                Get.offAllNamed('/home');
         }else{
-          Get.snackbar(errorTitle, response.statusCode.toString() , snackPosition: SnackPosition.BOTTOM, backgroundColor: redColor, colorText: whiteColor,);
+          Get.snackbar(errorTitle, errorUsernameOrPassword , snackPosition: SnackPosition.BOTTOM, backgroundColor: errorred, colorText: whiteColor);
         }
      }
     } catch (errorMsg) {
       setState(() {
         _isLoading = false;
       });
-      Get.snackbar(errorTitle, errorMsg.toString(), snackPosition: SnackPosition.BOTTOM, backgroundColor: redColor, colorText: whiteColor,);
+      Get.snackbar(errorTitle, errorMsg.toString(), snackPosition: SnackPosition.BOTTOM, backgroundColor: errorred, colorText: whiteColor);
     }
   }
 
@@ -57,82 +56,92 @@ class _LoginScreenState extends State<LoginScreen> {
       child: SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: false,
-            body: Center(
+            body: SingleChildScrollView(
+                  child: Center(
                 child: Column(
-              children: [
-                (context.screenHeight * 0.1).heightBox,
-                appNoTextlogoWidget(),
-                10.heightBox,
-                appname.text.fontFamily(bold).size(22).white.make(),
-                20.heightBox,
-                Column(
                   children: [
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          custumTextFieldWidget(
-                            controller: emailController,
-                            hint: emailHint,
-                          ),
-                          Obx(
-                            () => passwordtextfield(
-                              controller: passwordController,
-                              hint: passwordHint,
-                              isObsecure: isObsecure,
+                  (context.screenHeight * 0.1).heightBox,
+                  appNoTextlogoWidget(),
+                  10.heightBox,
+                  appname.text.fontFamily(bold).size(22).white.make(),
+                  20.heightBox,
+                  Column(
+                    children: [
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            custumTextFieldWidget(
+                              controller: emailController,
+                              hint: emailHint,
                             ),
-                          ),
-                        ],
+                            Obx(
+                              () => passwordtextfield(
+                                controller: passwordController,
+                                hint: passwordHint,
+                                isObsecure: isObsecure,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
+                      
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: Transform.translate(
+                          offset: Offset(0, -10), // Use a negative value to move it up
+                          child: TextButton(
                             onPressed: () {},
-                            child: forgetPass.text.black.make())),
-                    5.heightBox,
-                    // login button
-                    _isLoading
-                      ? CircularProgressIndicator()
-                      : ourButton(
-                            title: loginButton,
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                loginUserNow();
-                              } else {
-                                Get.snackbar(errorTitle, textFieldEmpty, snackPosition: SnackPosition.BOTTOM, backgroundColor: redColor, colorText: whiteColor,);
-                              }
-                            },
-                            textColor: blackColor,
-                            color: appcolor)
-                        .box
-                        .width(context.screenWidth - 50)
-                        .make(),
-                    10.heightBox,
-                    createNewAccount.text.black.make(),
-                    10.heightBox,
-                    ourButton(
-                            title: signupButton,
-                            onPressed: () {
-                              Get.to(() => const SignupScreen());
-                            },
-                            textColor: blackColor,
-                            color: appcolor)
-                        .box
-                        .width(context.screenWidth - 50)
-                        .make(),
-                    5.heightBox,
-                    
-                  ],
-                )
-                    .box
-                    .white
-                    .rounded
-                    .padding(const EdgeInsets.all(16.0))
-                    .width(context.screenWidth - 60)
-                    .make(),
-              ],
-            ))),
+                            child: forgetPass.text.color(appcolorred).size(size13).make(),
+                          ),
+                        ),),
+                      // login button
+                      _isLoading
+                        ? CircularProgressIndicator()
+                        : ourButton(
+                              title: loginButton,
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
+                                    loginUserNow();
+                                  }else{
+                                    Get.snackbar(errorTitle, textFieldEmpty, snackPosition: SnackPosition.BOTTOM, backgroundColor: errorred, colorText: whiteColor);
+                                  }
+                                } else {
+                                  Get.snackbar(errorTitle, textFieldEmpty, snackPosition: SnackPosition.BOTTOM, backgroundColor: errorred, colorText: whiteColor);
+                                }
+                              },
+                              textColor: blackColor,
+                              color: appcolor)
+                          .box
+                          .width(context.screenWidth - 50)
+                          .make(),
+                      10.heightBox,
+                      createNewAccount.text.gray600.size(size13).make(),
+                      10.heightBox,
+                      ourButton(
+                              title: signupButton,
+                              onPressed: () {
+                              Get.offAllNamed('/signup');
+                              },
+                              textColor: blackColor,
+                              color: appcolor)
+                          .box
+                          .width(context.screenWidth - 50)
+                          .make(),
+                      5.heightBox,
+                      
+                    ],
+                  )
+                      .box
+                      .color(whiteColor)
+                      .rounded
+                      .padding(const EdgeInsets.all(16.0))
+                      .width(context.screenWidth - 60)
+                      .make(),
+                              ],
+                            ),
+                ))),
       ),
     );
   }

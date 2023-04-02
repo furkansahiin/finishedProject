@@ -22,8 +22,8 @@ class DashboardFragments extends StatelessWidget {
       "label": "Keşfet",
     },
     {
-      "active_icon": Icons.favorite_border,
-      "non_active_icon": Icons.favorite_border,
+      "active_icon": Icons.favorite,
+      "non_active_icon": Icons.favorite_outline,
       "label": "Favoriler",
     },
     {
@@ -44,7 +44,6 @@ class DashboardFragments extends StatelessWidget {
         },
         builder: (controller) {
           return Scaffold(
-            backgroundColor: darkfontGrey,
             body: bgWidget(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -54,7 +53,7 @@ class DashboardFragments extends StatelessWidget {
               ),
             ),
             bottomNavigationBar: Obx(() => BottomNavigationBar(
-                  backgroundColor: blackColor,
+                  backgroundColor: Colors.transparent,
                   items: List.generate(_navigationButton.length, (index) {
                     return BottomNavigationBarItem(
                         backgroundColor: bottomNavBarBackGround,
@@ -69,9 +68,10 @@ class DashboardFragments extends StatelessWidget {
                   },
                   showSelectedLabels: true,
                   showUnselectedLabels: true,
-                  selectedItemColor: appcolor,
-                  unselectedItemColor: blackColor,
+                  selectedItemColor: appcolorred,
+                  unselectedItemColor: appcolor,
                 )),
+            
           );
         });
   }

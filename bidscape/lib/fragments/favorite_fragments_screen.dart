@@ -9,14 +9,14 @@ class FavoriteFragmentsScreen extends StatelessWidget {
       body: Container(
         child: Center(
           child: Text(
-            "Favorite Fragments Screen",
+            "Favoriler",
             style: TextStyle(
-              color: appcolor,
-              fontSize: size18,
-              fontFamily: bold,
+              color: Colors.white,
+              fontSize: 20,
             ),
           ),
-        ),
+        ),              
+
       ),
     );
   }

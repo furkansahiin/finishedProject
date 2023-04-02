@@ -1,6 +1,5 @@
 import 'package:bidscape/consts/consts.dart';
 
-
 void main() async {
   runApp(const MyApp());
 }
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => const MyApp()),
         GetPage(name: '/home', page: () => DashboardFragments()),
         GetPage(name: '/login', page: () => const LoginScreen()),
-        GetPage(name: '/singup', page: () => const SignupScreen()),
+        GetPage(name: '/signup', page: () => const SignupScreen()),
         GetPage(name: '/editprofile', page: () => const ProfileEditScreen()),
         // GetPage(name: '/ayarlar', page: () => const SettingsScreen()),
         // GetPage(name: '/search', page: () => const SearchFragments()),

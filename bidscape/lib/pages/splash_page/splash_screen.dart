@@ -9,11 +9,6 @@ class splashScreen extends StatefulWidget {
 }
 
 class _splashScreenState extends State<splashScreen> {
-  // changeScreen() {
-  //   Future.delayed(Duration(seconds: 3), () {
-  //     Get.to(() => DashboardFragments());
-  //   });
-  // }
 
   @override
   void initState() {
@@ -24,10 +19,10 @@ class _splashScreenState extends State<splashScreen> {
   Future<void> checkLoginStatus() async {
     User? user = await RememberUserPrefs.readUserInfo();
     if (user != null) {
-      Navigator.pushReplacementNamed(context, '/home');
+      Get.offAllNamed('/home');
     } else {
       Future.delayed(Duration(seconds: 3), () {
-        Navigator.pushReplacementNamed(context, '/login');
+      Get.offAllNamed('/login');
       });
     }
   }

@@ -27,7 +27,7 @@ class ProfileFragmentsScreen extends StatelessWidget {
 
     if (_result == true) {
       RememberUserPrefs.removeUserInfo().then((value) {
-        Get.off(LoginScreen());
+        Get.offAllNamed('/login');
       });
     }
   }
@@ -83,8 +83,15 @@ class ProfileFragmentsScreen extends StatelessWidget {
                           title: profileButtons[index].text.make(),
                           onTap: () {
                             if (index == 0) {
-                              Get.to(() => ProfileEditScreen());
-                            } else if (index == 4) {
+                              Get.toNamed('/editprofile');
+                            } else if (index == 1) {
+                              showModalBottomSheetWithText(context, privacyPolicyt, privacyPolicyttext);
+                            } else if (index == 2) {
+                              showModalBottomSheetWithText(context, termAndCond, termAndCondtext);
+                            } else if (index == 3) {
+                              Get.toNamed('/editprofile');
+                            }
+                             else if (index == 4) {
                               signOutUser();
                             }
                           },

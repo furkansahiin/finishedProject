@@ -15,15 +15,18 @@ Widget SearchWidget() {
         fillColor: whiteColor,
         hintStyle: TextStyle(color: textfieldGrey),
         // prefixIcon: Icon(Icons.search), başa alır
-        border: InputBorder.none,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: BorderSide.none,
+        ),
       ),
     ),
   );
 }
 
-Widget titleNameAlign({String? title}) {
-  return Align(
-    alignment: Alignment.centerLeft,
-    child: title?.text.color(Colors.black).fontFamily(bold).size(size18).make(),
-  );
-}
+// Widget titleNameAlign({String? title}) {
+//   return Align(
+//     alignment: Alignment.centerLeft,
+//     child: title?.text.color(Colors.black).fontFamily(bold).size(size18).make(),
+//   );
+// }
